@@ -1,14 +1,42 @@
 import java.util.ArrayList;
 
 public class Jugador <E extends ItipoPieza> {
-    private ArrayList<E> piezasVivas;
+    //private ArrayList<E> piezasVivas;
+    private class NodePieza{
+        public E pieza;
+        public NodePieza seguent;
+        public NodePieza(E pieza, NodePieza seguent)
+        {
+            this.pieza = pieza;
+            this.seguent = seguent;
+        }
+    }
+    private NodePieza piezasVivas; // seqüència enllaçada de peces amb capçalera
+// no té sentit que el llistat de peces sigui null, com a mínim tindrà una peça
 
-    public Jugador(ArrayList piezasVivas){
-        this.piezasVivas = piezasVivas;
+    public Jugador(ArrayList<E> piezasInicials){
+
+        piezasVivas = new NodePieza(null,null);
+
+        // la cabeza que es al referencia
+        NodePieza aux = piezasVivas;
+
+        for(int i=0;i<piezasInicials.size();i++){
+
+             aux.seguent = new NodePieza(piezasInicials.get(i),null);
+             aux = aux.seguent;
+
+        }
     }
 
     public ArrayList<E> getPiezasVivas(){
-        return piezasVivas;
+        ArrayList array = new ArrayList<>();
+        NodePieza aux = piezasVivas.seguent;
+        while(aux !=null){
+            array.add(aux.pieza);
+            aux = aux.seguent;
+        }
+        return array;
     }
 
     private E buscarenPoscions(int nuevaFila, int nuevaColumna){
