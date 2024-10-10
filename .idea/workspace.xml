@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42e89e1e-7d7b-445c-9bb0-1a25172c67f0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="42e89e1e-7d7b-445c-9bb0-1a25172c67f0" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,7 +27,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/David/Documents/GitHub/AutoRent/group-project-informatica-with-alfredo-bluesky/demo",
+    "last_opened_file_path": "C:/Users/David/Documents/GitHub/AutoRent/P2_AdrianUrsu_DavidGaudioso/P2_AdrianUrsu_DavidGaudioso/P2_AdrianUrsu_DavidGaudioso",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -62,6 +60,7 @@
       <workItem from="1728460787232" duration="448000" />
       <workItem from="1728461257842" duration="15000" />
       <workItem from="1728495495302" duration="48000" />
+      <workItem from="1728578843601" duration="21000" />
     </task>
     <servers />
   </component>
