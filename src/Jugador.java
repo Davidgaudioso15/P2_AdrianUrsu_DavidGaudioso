@@ -39,16 +39,18 @@ public class Jugador <E extends ItipoPieza> {
         return array;
     }
 
-    private E buscarenPoscions(int nuevaFila, int nuevaColumna){
-        if (isEmpty()) {
-            for(int i = 0 ; i < piezasVivas.size();i++) {
-                if(piezasVivas.get(i).getFila() == nuevaFila && piezasVivas.get(i).getColumna() == nuevaColumna) {
-                    return piezasVivas.get(i);
-                }
+    private E buscarenPoscions(int Fila, int Columna){
+        NodePieza aux = piezasVivas.seguent;
+        while (aux != null) {
+            if (Fila == aux.pieza.getFila() && Columna == aux.pieza.getColumna()) {
+                return aux.pieza;
             }
-            return null;
-        } else throw new RuntimeException("La llista està buida");
+            aux = aux.seguent;
+        }
+        throw new RuntimeException("La llista està buida solo tiene la cabezera");
     }
+
+
 
     public void moverPieza(int columnaAnterior, int filaAnterior, int nuevaColumna, int nuevaFila) throws Exception {
         E buscar = buscarenPoscions(filaAnterior,columnaAnterior); //Busca la peça a moure en la llista de peces del mateix Jugador
@@ -62,16 +64,28 @@ public class Jugador <E extends ItipoPieza> {
     }
 
     public boolean eliminarPiezaEnPosicion(int columna, int fila) throws Exception {
-        E buscar = buscarenPoscions(fila,columna); //Busca la peça per eliminar, independentment de quin Jugador
-        if(buscar==null) return false;
-        else if(buscar.fiJoc()){ //Si troba que hi ha una peça contraria en el mateix lloc que el rei contrari
-            piezasVivas.remove(buscar); //Elimina el rei
-            throw new FiJocException("El rey esta mort");
+        if(columna < 0 || fila < 0){
+            return false;
         }
-        else{
-            piezasVivas.remove(buscar);
-            return true;
+        else {
+            NodePieza aux = piezasVivas;
+            while (aux.seguent != null) {
+                if (aux.seguent.pieza.fiJoc()) {
+
+                    throw new FiJocException("El rey esta mort");
+
+                }
+                else if (fila == aux.seguent.pieza.getFila() && columna == aux.seguent.pieza.getColumna()) {
+                    aux.seguent = aux.seguent.seguent;
+                    return true;
+
+                }
+                else {
+                    aux = aux.seguent;
+                }
+            }
         }
+        return false;
     }
 
     public boolean reySigueVivo(char rey){
