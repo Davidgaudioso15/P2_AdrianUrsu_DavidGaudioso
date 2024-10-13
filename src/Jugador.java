@@ -1,7 +1,8 @@
+import org.w3c.dom.Node;
+
 import java.util.ArrayList;
 
 public class Jugador <E extends ItipoPieza> {
-    //private ArrayList<E> piezasVivas;
     private class NodePieza{
         public E pieza;
         public NodePieza seguent;
@@ -11,27 +12,26 @@ public class Jugador <E extends ItipoPieza> {
             this.seguent = seguent;
         }
     }
-    private NodePieza piezasVivas; // seqüència enllaçada de peces amb capçalera
-// no té sentit que el llistat de peces sigui null, com a mínim tindrà una peça
+    private NodePieza piezasVivas; // seqüència enllaçada de peces SENSE capçalera
+// piezasVivas sempre serà un nodePieza
+// en el nostre cas piezasVivas no pot ser null, com a mínim tindrem una peça
 
-    public Jugador(ArrayList<E> piezasInicials){
+    public Jugador(ArrayList<E> piezasInicials){ //COMRPOBADO BIEN
 
         piezasVivas = new NodePieza(null,null);
 
         // la cabeza que es al referencia
         NodePieza aux = piezasVivas;
-
         for(int i=0;i<piezasInicials.size();i++){
-
              aux.seguent = new NodePieza(piezasInicials.get(i),null);
              aux = aux.seguent;
-
         }
+        piezasVivas = piezasVivas.seguent; //NO BORRAR
     }
 
-    public ArrayList<E> getPiezasVivas(){
+    public ArrayList<E> getPiezasVivas(){ //EN TEORIA FUNCIONA, NO COMPROBADO
         ArrayList array = new ArrayList<>();
-        NodePieza aux = piezasVivas.seguent;
+        NodePieza aux = piezasVivas;
         while(aux !=null){
             array.add(aux.pieza);
             aux = aux.seguent;
@@ -39,20 +39,20 @@ public class Jugador <E extends ItipoPieza> {
         return array;
     }
 
-    private E buscarenPoscions(int Fila, int Columna){
-        NodePieza aux = piezasVivas.seguent;
+    private E buscarenPoscions(int fila, int columna){ //EN TEORIA FUNCIONA, NO COMPROBADO
+        NodePieza aux = piezasVivas;
         while (aux != null) {
-            if (Fila == aux.pieza.getFila() && Columna == aux.pieza.getColumna()) {
+            if (fila == aux.pieza.getFila() && columna == aux.pieza.getColumna()) {
                 return aux.pieza;
             }
             aux = aux.seguent;
         }
-        throw new RuntimeException("La llista està buida solo tiene la cabezera");
+        return null;
     }
 
 
 
-    public void moverPieza(int columnaAnterior, int filaAnterior, int nuevaColumna, int nuevaFila) throws Exception {
+    public void moverPieza(int columnaAnterior, int filaAnterior, int nuevaColumna, int nuevaFila) throws Exception { //EN TEORIA FUNCIONA, NO COMPROBADO
         E buscar = buscarenPoscions(filaAnterior,columnaAnterior); //Busca la peça a moure en la llista de peces del mateix Jugador
         if(buscar != null){ //Si la troba
             if(this.repetit(getPiezasVivas(),nuevaColumna,nuevaFila)) //Si és del mateix color
@@ -63,37 +63,44 @@ public class Jugador <E extends ItipoPieza> {
         }
     }
 
-    public boolean eliminarPiezaEnPosicion(int columna, int fila) throws Exception {
+    public boolean eliminarPiezaEnPosicion(int columna, int fila) throws Exception { //EN TEORIA FUNCIONA, NO COMPROBADO
         if(columna < 0 || fila < 0){
             return false;
         }
         else {
+
+            //Cas en ser la primera (SENSE CAPÇALERA!!!!!!)
+            if(piezasVivas.pieza.getFila() == fila && piezasVivas.pieza.getColumna() == columna){
+                piezasVivas = piezasVivas.seguent;
+                return true;
+            }
+
             NodePieza aux = piezasVivas;
-            while (aux.seguent != null) {
-                if (aux.seguent.pieza.fiJoc()) {
-
-                    throw new FiJocException("El rey esta mort");
-
-                }
-                else if (fila == aux.seguent.pieza.getFila() && columna == aux.seguent.pieza.getColumna()) {
-                    aux.seguent = aux.seguent.seguent;
+            while (aux != null) {
+                if (fila == aux.seguent.pieza.getFila() && columna == aux.seguent.pieza.getColumna()) {
+                    if (aux.seguent.pieza.fiJoc()) {
+                        aux.seguent = aux.seguent.seguent; //Elimina el rei
+                        throw new FiJocException("El rey esta mort");
+                    }
+                    aux.seguent = aux.seguent.seguent; //Elimina la peça buscada
                     return true;
-
                 }
                 else {
-                    aux = aux.seguent;
+                    aux = aux.seguent; //Segueix buscant
                 }
             }
         }
         return false;
     }
 
-    public boolean reySigueVivo(char rey){
+    public boolean reySigueVivo(){ //COMPROBADO BIEN
         if (isEmpty()) {
-            for (int i = 0; i < piezasVivas.size(); i++) {
-                if (piezasVivas.get(i).getTipus() == rey) {
+            NodePieza aux = piezasVivas;
+            while(aux!=null) {
+                if (aux.pieza.getTipus() == Pieza.REY) {
                     return true;
                 }
+                aux = aux.seguent;
             }
         }
         return false;
@@ -109,20 +116,22 @@ public class Jugador <E extends ItipoPieza> {
         }
         return false;
     }
+
     //El mètode verifica si la llista és buida o no
     public boolean isEmpty() {
-        return !piezasVivas.isEmpty();
+        return !(piezasVivas ==null);
     }
 
 
-    public String toString(){
+    public void mostraPeces(){ //COMPROBADO BIEN
         if (isEmpty()) {
             String r = " ";
-            for (int i = 0; i < piezasVivas.size(); i++) {
-                r += piezasVivas.get(i).toString() + ", ";
+            NodePieza aux = piezasVivas;
+            while(aux!=null) {
+                r += "["+ aux.pieza.getTipus() + "," + aux.pieza.getFila() + "," + aux.pieza.getColumna()  + "]" + ", ";
+                aux = aux.seguent;
             }
-            return r;
-        }
-        return "La llista està buida en toString de Jugador";
+            System.out.println(r);
+    }
     }
 }

@@ -3,18 +3,21 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Torns <E>{
-    private ArrayList<E> llistatTorns;
-
-
-    public Torns(){
-        llistatTorns = new ArrayList<E>();
+    private class NodeTorn{
+        public E moviment;
+        public NodeTorn seguent;
+        public NodeTorn(E moviment, NodeTorn seguent)
+        {
+            this.moviment = moviment;
+            this.seguent = seguent;
+        }
     }
+    private NodeTorn llistatTorns; // seqüència enllaçada de torns
+// amb capçalera
 
     public Torns(String nomfitxer) throws IOException {
         try{
-            llistatTorns = new ArrayList<E>();
             carregardesdeFitxer(nomfitxer);
-
         } catch (Exception e) {
             System.out.println("Error al llegir el fitxer : "+nomfitxer);
         }
