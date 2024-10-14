@@ -1,21 +1,28 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Torns <E>{
     private class NodeTorn{
+
         public E moviment;
         public NodeTorn seguent;
-        public NodeTorn(E moviment, NodeTorn seguent)
-        {
+
+        public NodeTorn(E moviment, NodeTorn seguent) {
             this.moviment = moviment;
             this.seguent = seguent;
         }
+
     }
+
     private NodeTorn llistatTorns; // seqüència enllaçada de torns
 // amb capçalera
 
+    public Torns(){
+        llistatTorns = new NodeTorn(null,null);
+    }
+
     public Torns(String nomfitxer) throws IOException {
+        llistatTorns = new NodeTorn((E) nomfitxer,null);
         try{
             carregardesdeFitxer(nomfitxer);
         } catch (Exception e) {
@@ -24,27 +31,47 @@ public class Torns <E>{
     }
 
     public void afegirtorn(E torn){ // TODO PREGUNTAR COMO SE GUARDA UN TORN
-        llistatTorns.add(torn);
+
+        if(segNull())
+            this.llistatTorns.seguent = new NodeTorn(torn, null);
+        else {
+            NodeTorn u = ultim();
+            u.seguent = new NodeTorn(torn, null);
+        }
     }
 
-    public E agafarPrimerTorn() {
+    private NodeTorn ultim() {
+        NodeTorn aux = llistatTorns;
+        while(aux.seguent != null){
+            aux = aux.seguent;
+        }
+        return aux;
+    }
 
-        if(llistatTorns.isEmpty()){
+    private boolean segNull() {
+        return llistatTorns.seguent == null;
+    }
+
+    public E agafarPrimerTorn() { //NO COMPROBADO
+
+        if(segNull()){
             throw new NoSuchElementException("La llista està buida, no es pot llegir la llista de torns");
         }
-        E primerelement =  llistatTorns.get(0);
-        llistatTorns.remove(0);
+        E primerelement =  llistatTorns.seguent.moviment;
+        llistatTorns.seguent = llistatTorns.seguent.seguent;
         return primerelement;
     }
 
-    public void guardarAfitxer(String nomfitxer){
+    public void guardarAfitxer(String nomfitxer){ //NO COMPROBADO, EN TEORÍA FUNCIONA BIEN
             try(FileWriter fitxer = new FileWriter("src/Torns/" + nomfitxer + ".txt")) {
-                for (int i =0;i<llistatTorns.size();i++){
-                    String torn = llistatTorns.get(i).toString();
+                NodeTorn aux = llistatTorns.seguent;
+                while(aux != null) {
+                    String torn = (String) aux.moviment;
                     String part1 = torn.substring(0, torn.length()/2);
                     String part2 = torn.substring(torn.length()/2);
                     part1 = part1 + part2;
                     fitxer.write(part1 + "\n");
+                    aux = aux.seguent;
                 }
                 fitxer.close();
             }
@@ -60,8 +87,13 @@ public class Torns <E>{
             File f = new File("src/Torns/" + nomfitxer + ".txt");
             BufferedReader fitxer = new BufferedReader(new FileReader(f));
             String linea;
+            NodeTorn aux = llistatTorns;
             while ((linea=fitxer.readLine())!=null){
-                llistatTorns.add((E) linea);
+
+                aux.seguent = new NodeTorn((E) linea,null);
+
+                //llistatTorns.add((E) linea);
+                aux = aux.seguent;
             }
             fitxer.close();
         }
@@ -74,13 +106,14 @@ public class Torns <E>{
 
     public String imprimirTorns(){
         String r = "";
-        for(int i =0;i<llistatTorns.size();i++){
-           r+=llistatTorns.get(i).toString()+"\n";
+        if(!segNull()){
+            NodeTorn aux = llistatTorns;
+            while (aux !=null){
+                r+= aux.moviment.toString();
+                aux = aux.seguent;
+            }
         }
         return r;
-
     }
-
-
 
 }

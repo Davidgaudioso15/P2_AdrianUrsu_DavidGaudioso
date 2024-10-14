@@ -1,5 +1,3 @@
-import org.w3c.dom.Node;
-
 import java.util.ArrayList;
 
 public class Jugador <E extends ItipoPieza> {
@@ -12,6 +10,7 @@ public class Jugador <E extends ItipoPieza> {
             this.seguent = seguent;
         }
     }
+
     private NodePieza piezasVivas; // seqüència enllaçada de peces SENSE capçalera
 // piezasVivas sempre serà un nodePieza
 // en el nostre cas piezasVivas no pot ser null, com a mínim tindrem una peça
@@ -42,6 +41,7 @@ public class Jugador <E extends ItipoPieza> {
     private E buscarenPoscions(int fila, int columna){ //EN TEORIA FUNCIONA, NO COMPROBADO
         NodePieza aux = piezasVivas;
         while (aux != null) {
+            //System.out.println("BUSCO UNA PIEZA EN LA FILA = " + fila + " Y COLUMNA = " + columna + ",  Y HE ENCONTRADO DE MOMENTO LA PIEZA EN FILA = "+ aux.pieza.getFila() + " Y COLUMNA = " + aux.pieza.getColumna());
             if (fila == aux.pieza.getFila() && columna == aux.pieza.getColumna()) {
                 return aux.pieza;
             }
@@ -50,8 +50,6 @@ public class Jugador <E extends ItipoPieza> {
         return null;
     }
 
-
-
     public void moverPieza(int columnaAnterior, int filaAnterior, int nuevaColumna, int nuevaFila) throws Exception { //EN TEORIA FUNCIONA, NO COMPROBADO
         E buscar = buscarenPoscions(filaAnterior,columnaAnterior); //Busca la peça a moure en la llista de peces del mateix Jugador
         if(buscar != null){ //Si la troba
@@ -59,7 +57,7 @@ public class Jugador <E extends ItipoPieza> {
                 throw new Exception("Es una peça del mateix color, no es pot fer el moviment.");
             buscar.setPosicion(nuevaFila,nuevaColumna); //Si no és del mateix color, canvia els atributs de la peça moguda en la llista
         } else {
-            throw new Exception();
+            throw new Exception("61 La peça buscada no existeix");
         }
     }
 
@@ -75,7 +73,7 @@ public class Jugador <E extends ItipoPieza> {
                 return true;
             }
 
-            NodePieza aux = piezasVivas;
+            NodePieza aux = piezasVivas.seguent; //TODO PREGUNTAR
             while (aux != null) {
                 if (fila == aux.seguent.pieza.getFila() && columna == aux.seguent.pieza.getColumna()) {
                     if (aux.seguent.pieza.fiJoc()) {

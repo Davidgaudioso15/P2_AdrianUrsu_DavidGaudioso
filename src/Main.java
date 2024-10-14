@@ -81,7 +81,7 @@ public class Main {
             System.out.println("Que peça vols moure? (Per exemple : A1,A3)");
 
             String entrada = "";
-            if(blanca) entrada = "B"; else entrada = "N";
+            //if(blanca) entrada = "B"; else entrada = "N";
 
             boolean correcte = false;
             while(!correcte ) {
@@ -92,26 +92,24 @@ public class Main {
                     //Això és perque el mètode tornToPosition accepta l'String amb aquest format : "A1,B2 B", per exemple, per saber si és el torn de les blanques o negres i en funció d'això fer els mètodes de cerca i eliminació corresponents
                     if (blanca) entrada += " B";
                     else entrada += " N";
+                    try {
+                        tornToPosition(entrada,j1,j2);
+                        //Per no afegir B o N en el .txt es fa aquest substring
+                        entrada = entrada.substring(0,5);
+
+                        //Afegeix el torn a la llista de torns de l'objecte Torns
+                        tornn.afegirtorn(entrada);
+
+                        //Canvia el jugador
+                        blanca = !blanca;
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
 
                 } else {
                     System.out.println("El format de moviment és, per exemple, \"A1,A2\", torna-hi");
                 }
             }
-
-            try {
-                tornToPosition(entrada,j1,j2);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-            //Per no afegir B o N en el .txt es fa aquest substring
-            entrada = entrada.substring(0,5);
-
-            //Afegeix el torn a la llista de torns de l'objecte Torns
-            tornn.afegirtorn(entrada);
-
-            //Canvia el jugador
-            blanca = !blanca;
         }
 
         fesEnter();
@@ -138,12 +136,14 @@ public class Main {
         try {
             tornToPosition(entrada,j1,j2);
         } catch (Exception r) {
-            System.out.println(r.getMessage());
+            System.out.println("No s'ha pogut fer tornTOPosition amb entrada = " + entrada + " r.getMessage() =  "+r.getMessage());
         }
 
         mostrarTauler(j1,j2);
+        System.out.println("145");
 
     }
+
     //Aquest mètode retorna true o false si està en el rang o no per saber si es una lletra o no
     private static boolean esLletra(char c) {
         return (c >= 'a' && c <= 'h') || (c >= 'A' && c <= 'H');
@@ -204,6 +204,8 @@ public class Main {
         Jugador aux = null; //JUGADOR ACTUAL
         Jugador aux2 = null; //JUGADOR PARA ELIMINAR PIEZAS
 
+        //Per saber el jugador que ha de moure
+        if(t=='B') { aux=j1; aux2=j2; } else { aux=j2; aux2=j1; }
 
         //aux és el Jugador que fa el moviment i aux2 per eliminar les seves peçes en el cas de moure d'una peca blanca, per exemple, a una negre
 
@@ -211,28 +213,20 @@ public class Main {
 
         boolean correcte = false;
         while(!correcte) {
-            try {
-                //Aquí es mira que el format sigui tipus : A1,A2
-                if(esLletra(torn.charAt(0)) && !esLletra(torn.charAt(1)) && esLletra(torn.charAt(3)) && !esLletra(torn.charAt(4))) {
+            //Aquí es mira que el format sigui tipus : A1,A2
+            if(esLletra(torn.charAt(0)) && !esLletra(torn.charAt(1)) && esLletra(torn.charAt(3)) && !esLletra(torn.charAt(4))) {
 
-                    //Es converteixen els chars en ints de dues maneres "diferents"
-                    columna1 = (int) torn.charAt(0) -65;
-                    fila1 = torn.charAt(1) - '0';
-                    columna2 = (int) torn.charAt(3) -65;
-                    fila2 = torn.charAt(4) - '0';
+                //Es converteixen els chars en ints de dues maneres "diferents"
+                columna1 = (int) torn.charAt(0) -65;
+                fila1 = torn.charAt(1) - '0';
+                columna2 = (int) torn.charAt(3) -65;
+                fila2 = torn.charAt(4) - '0';
 
-                    //Per saber el jugador que ha de moure
-                    if(t=='B') { aux=j1; aux2=j2; } else { aux=j2; aux2=j1; }
-
-                    correcte = true;
-                    aux.moverPieza(columna1, fila1, columna2, fila2);
-                } else {
-                    System.out.println("Torna-hi, no has posat bé el moviment");
-                    torn = scanner.nextLine().toUpperCase();
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("No s'ha trobat la peça a moure, torna-hi");
+                correcte = true;
+                aux.moverPieza(columna1, fila1, columna2, fila2);
+            } else {
+                System.out.println("Torna-hi, no has posat bé el moviment");
+                torn = scanner.nextLine().toUpperCase();
             }
         }
 
@@ -240,7 +234,7 @@ public class Main {
             try {
                 aux2.eliminarPiezaEnPosicion(columna2, fila2);
             }catch (Exception e){
-                e.getMessage();
+                System.out.println("244   e.getMessage() = " + e.getMessage());
             }
         }
     }

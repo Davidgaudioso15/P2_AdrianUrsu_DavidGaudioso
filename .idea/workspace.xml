@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42e89e1e-7d7b-445c-9bb0-1a25172c67f0" name="Changes" comment="" />
+    <list id="39c6caab-70fb-4779-be39-0c55e457a40e" name="Changes by David" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,7 +66,8 @@
       <workItem from="1728461257842" duration="15000" />
       <workItem from="1728495495302" duration="48000" />
       <workItem from="1728578843601" duration="21000" />
-      <workItem from="1728809750723" duration="7725000" />
+      <workItem from="1728809750723" duration="7761000" />
+      <workItem from="1728918350932" duration="7356000" />
     </task>
     <servers />
   </component>
