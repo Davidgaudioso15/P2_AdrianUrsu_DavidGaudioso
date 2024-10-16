@@ -17,7 +17,7 @@ public class Jugador <E extends ItipoPieza> {
 
     public Jugador(ArrayList<E> piezasInicials){ //COMRPOBADO BIEN
 
-        piezasVivas = new NodePieza(piezasInicials.removeFirst(),null);
+        piezasVivas = new NodePieza(piezasInicials.remove(0),null);
         NodePieza aux = piezasVivas;
         for(int i=0;i<piezasInicials.size();i++){
              aux.seguent = new NodePieza(piezasInicials.get(i),null);
