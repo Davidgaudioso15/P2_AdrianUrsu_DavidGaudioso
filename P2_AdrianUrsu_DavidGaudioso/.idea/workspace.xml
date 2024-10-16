@@ -24,7 +24,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< Updated upstream
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -64,13 +63,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1728461017762</updated>
-<<<<<<< Updated upstream
-      <workItem from="1728461019474" duration="10000" />
-      <workItem from="1728578865189" duration="13000" />
-=======
-      <workItem from="1728461019474" duration="163000" />
-      <workItem from="1728894328378" duration="74000" />
->>>>>>> Stashed changes
     </task>
     <servers />
   </component>
