@@ -18,17 +18,15 @@ public class Jugador <E extends ItipoPieza> {
     public Jugador(ArrayList<E> piezasInicials){ //COMRPOBADO BIEN
 
         piezasVivas = new NodePieza(piezasInicials.removeFirst(),null);
-
-        // la cabeza que es al referencia
         NodePieza aux = piezasVivas;
         for(int i=0;i<piezasInicials.size();i++){
              aux.seguent = new NodePieza(piezasInicials.get(i),null);
              aux = aux.seguent;
         }
-        //piezasVivas = piezasVivas.seguent; //NO BORRAR
+
     }
 
-    public ArrayList<E> getPiezasVivas(){ //EN TEORIA FUNCIONA, NO COMPROBADO
+    public ArrayList<E> getPiezasVivas(){
         ArrayList array = new ArrayList<>();
         NodePieza aux = piezasVivas;
         while(aux !=null){
@@ -38,10 +36,9 @@ public class Jugador <E extends ItipoPieza> {
         return array;
     }
 
-    private E buscarenPoscions(int fila, int columna){ //EN TEORIA FUNCIONA, NO COMPROBADO
+    private E buscarenPoscions(int fila, int columna){
         NodePieza aux = piezasVivas;
         while (aux != null) {
-            //System.out.println("BUSCO UNA PIEZA EN LA FILA = " + fila + " Y COLUMNA = " + columna + ",  Y HE ENCONTRADO DE MOMENTO LA PIEZA EN FILA = "+ aux.pieza.getFila() + " Y COLUMNA = " + aux.pieza.getColumna());
             if (fila == aux.pieza.getFila() && columna == aux.pieza.getColumna()) {
                 return aux.pieza;
             }
@@ -57,7 +54,7 @@ public class Jugador <E extends ItipoPieza> {
                 throw new Exception("Es una peça del mateix color, no es pot fer el moviment.");
             buscar.setPosicion(nuevaFila,nuevaColumna); //Si no és del mateix color, canvia els atributs de la peça moguda en la llista
         } else {
-            throw new Exception("61 La peça buscada no existeix");
+            throw new Exception("La peça buscada no existeix");
         }
     }
 
@@ -73,7 +70,7 @@ public class Jugador <E extends ItipoPieza> {
                 return true;
             }
 
-            NodePieza aux = piezasVivas.seguent; //TODO PREGUNTAR
+            NodePieza aux = piezasVivas.seguent;
             while (aux != null) {
                 if (fila == aux.seguent.pieza.getFila() && columna == aux.seguent.pieza.getColumna()) {
                     if (aux.seguent.pieza.fiJoc()) {
@@ -121,7 +118,7 @@ public class Jugador <E extends ItipoPieza> {
     }
 
 
-    public void mostraPeces(){ //COMPROBADO BIEN
+    public void mostraPeces(){ 
         if (isEmpty()) {
             String r = " ";
             NodePieza aux = piezasVivas;

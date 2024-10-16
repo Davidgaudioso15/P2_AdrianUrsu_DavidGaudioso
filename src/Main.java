@@ -136,11 +136,9 @@ public class Main {
         try {
             tornToPosition(entrada,j1,j2);
         } catch (Exception r) {
-            System.out.println("No s'ha pogut fer tornTOPosition amb entrada = " + entrada + " r.getMessage() =  "+r.getMessage());
+            System.out.println(r.getMessage());
         }
-
         mostrarTauler(j1,j2);
-        System.out.println("145");
 
     }
 
@@ -162,19 +160,18 @@ public class Main {
 
                 if(i%2==0){
                     System.out.println("Es el torn del jugador negre i fa el el movient "+ too.substring(0,2) + " a la posicio " + too.substring(3,5));
-                    fesEnter();
                     blanca = false; //NEGRE
                 }
                 else{
                     System.out.println("Es el torn del jugador blanc i fa el el movient " + too.substring(0,2) + " a la posicio " + too.substring(3,5));
-                    fesEnter();
-                    blanca = true;        //BLANCA
+                    blanca = true; //BLANCA
                 }
+                fesEnter();
                 entrada(too,blanca,j1,j2);
             }
         }
         catch (NoSuchElementException e) {
-            System.out.println("No hi ha cap torn més en el fitxer!");
+            System.out.println("No hi ha cap torn més en el fitxer, s'ha acabat la reproducció");
         }
     }
 
@@ -213,6 +210,7 @@ public class Main {
 
         boolean correcte = false;
         while(!correcte) {
+
             //Aquí es mira que el format sigui tipus : A1,A2
             if(esLletra(torn.charAt(0)) && !esLletra(torn.charAt(1)) && esLletra(torn.charAt(3)) && !esLletra(torn.charAt(4))) {
 
@@ -234,7 +232,7 @@ public class Main {
             try {
                 aux2.eliminarPiezaEnPosicion(columna2, fila2);
             }catch (Exception e){
-                System.out.println("244   e.getMessage() = " + e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -275,7 +273,6 @@ public class Main {
             }
             fesEnter();
         }
-        //fesEnter();
     }
 
     public void fesEnter() {

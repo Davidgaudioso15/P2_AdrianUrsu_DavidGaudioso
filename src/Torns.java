@@ -30,7 +30,7 @@ public class Torns <E>{
         }
     }
 
-    public void afegirtorn(E torn){ // TODO PREGUNTAR COMO SE GUARDA UN TORN
+    public void afegirtorn(E torn){
 
         if(segNull())
             this.llistatTorns.seguent = new NodeTorn(torn, null);
@@ -52,7 +52,7 @@ public class Torns <E>{
         return llistatTorns.seguent == null;
     }
 
-    public E agafarPrimerTorn() { //NO COMPROBADO
+    public E agafarPrimerTorn() {
 
         if(segNull()){
             throw new NoSuchElementException("La llista està buida, no es pot llegir la llista de torns");
@@ -62,7 +62,7 @@ public class Torns <E>{
         return primerelement;
     }
 
-    public void guardarAfitxer(String nomfitxer){ //NO COMPROBADO, EN TEORÍA FUNCIONA BIEN
+    public void guardarAfitxer(String nomfitxer){
             try(FileWriter fitxer = new FileWriter("src/Torns/" + nomfitxer + ".txt")) {
                 NodeTorn aux = llistatTorns.seguent;
                 while(aux != null) {
@@ -91,8 +91,6 @@ public class Torns <E>{
             while ((linea=fitxer.readLine())!=null){
 
                 aux.seguent = new NodeTorn((E) linea,null);
-
-                //llistatTorns.add((E) linea);
                 aux = aux.seguent;
             }
             fitxer.close();
