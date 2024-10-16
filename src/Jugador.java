@@ -17,7 +17,7 @@ public class Jugador <E extends ItipoPieza> {
 
     public Jugador(ArrayList<E> piezasInicials){ //COMRPOBADO BIEN
 
-        piezasVivas = new NodePieza(null,null);
+        piezasVivas = new NodePieza(piezasInicials.removeFirst(),null);
 
         // la cabeza que es al referencia
         NodePieza aux = piezasVivas;
@@ -25,7 +25,7 @@ public class Jugador <E extends ItipoPieza> {
              aux.seguent = new NodePieza(piezasInicials.get(i),null);
              aux = aux.seguent;
         }
-        piezasVivas = piezasVivas.seguent; //NO BORRAR
+        //piezasVivas = piezasVivas.seguent; //NO BORRAR
     }
 
     public ArrayList<E> getPiezasVivas(){ //EN TEORIA FUNCIONA, NO COMPROBADO
